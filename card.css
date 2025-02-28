@@ -1,0 +1,300 @@
+:root {
+    --color-primary: hsl(198, 55%, 69%);
+    --color-secondary: hsl(238, 66%, 83%);
+    --color-tertiary: hsl(221, 74%, 74%);
+    --color-tertiary-opacity: hsl(221, 74%, 74%, 0.2);
+    --color-bg-gradient: radial-gradient(at 35% 75%, hsla(198, 55%, 69%, 0.3) 0px, transparent 70%),
+    radial-gradient(at 79% 41%, hsla(238, 66%, 83%, 0.3) 0px, transparent 80%),
+    radial-gradient(at 19% 28%, hsla(221, 74%, 74%, 0.3) 0px, transparent 50%);
+    --color-bg-gradient-night: radial-gradient(at 35% 75%, hsla(198, 55%, 50%, 0.3) 0px, transparent 70%),
+    radial-gradient(at 79% 41%, hsla(238, 66%, 60%, 0.3) 0px, transparent 80%),
+    radial-gradient(at 19% 28%, hsla(221, 74%, 55%, 0.3) 0px, transparent 50%);
+    --font-primary: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 3rem;
+    --border-radius: 8px;
+    --shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s ease-in-out;
+    --font-small: clamp(0.9rem, 0.757rem + 0.381vw, 1.1rem);
+    --font-normal: clamp(1.5rem, 1.143rem + 0.952vw, 2rem);
+}
+html, body, #qa {
+    min-height: 99.8vh;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: var(--color-bg-gradient);
+    background-repeat: no-repeat;
+    font-family: var(--font-primary);
+    font-size: var(--font-normal);
+    text-align: center;
+}
+body.nightMode {
+    background: var(--color-bg-gradient-night);
+}
+h1 { font-size: clamp(2rem, 1.286rem + 1.905vw, 3rem);}
+h2 { font-size: clamp(1.3rem, 1.086rem + 0.571vw, 1.6rem); }
+h3 { font-size: clamp(1.2rem, 0.914rem + 0.762vw, 1.6rem); }
+h1, h2, h3, h4, h5 { font-weight: normal; }
+h1.bold, h2.bold, h3.bold, h4.bold, h5.bold { font-weight: bold; }
+
+.flex {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    max-width: 50rem;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.flex.flex--vertical {
+    flex-direction: column;
+}
+.flex > * {
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    flex: 1 1;
+    min-width: 20ch;
+}
+.flex header { flex: 0; }
+.flex main { flex: 1;}
+.flex footer { flex: 0; }
+
+.breadcrumb {
+    list-style: none;
+    font-weight: 300;
+    font-size: var(--font-small);
+    padding-inline-start: 0;
+}
+.breadcrumb li {
+    display: inline;
+}
+
+.breadcrumb li::before {
+    content: "You are in: ";
+}
+
+.breadcrumb li + li::before {
+    content: "/\00a0";
+}
+
+.breadcrumb a {
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+footer b {
+    display: inline-block;
+}
+footer b::first-letter
+{
+    text-decoration: underline;
+}
+
+img {
+    margin: var(--spacing-lg);
+    filter: drop-shadow(5px 5px 5px #222);
+    border-radius: var(--border-radius);
+}
+img.bordered-img {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: var(--shadow);
+    box-shadow: 10px 10px 40px 10px var(--color-tertiary-opacity);
+}
+
+img.bordered-img:hover {
+    transform: scale(1.03);
+}
+
+/* Language Flags */
+/* first hide all messages*/
+
+.match-locale[lang] {
+    display: none;
+}
+
+/* assume that the target langauge is the same as the prototypical card setting which defaults Front to English and Back to Polish (data taken from the .ct_ class - abbr. "card target"). If the .ft_ class is not specified (no language code follows the class name such ass ft_PL or ft_ENG), that means that we can revert to the defaults specified in the card name as the class name ct_... */
+
+/* Default language settings based on the card target (ct_) class */
+.match-locale[lang="PL"].ct_PL:not(.ft_ENG):not(.ft_GER):not(.fs_ENG):not(.fs_GER),
+.match-locale[lang="ENG"].ct_ENG:not(.ft_PL):not(.ft_GER):not(.fs_PL):not(.fs_GER),
+.match-locale[lang="GER"].ct_GER:not(.ft_PL):not(.ft_ENG):not(.fs_PL):not(.fs_ENG),
+.match-locale[lang="PL"].ct_IMG.cs_PL:not(.fs_GER):not(.fs_ENG),
+.match-locale[lang="ENG"].ct_IMG.cs_ENG:not(.fs_PL):not(.fs_GER),
+.match-locale[lang="GER"].ct_IMG.cs_GER:not(.fs_PL):not(.fs_ENG)
+{
+    display: block;
+}
+
+/* Override the assumed language of choice if the target language field is specified (ft_) */
+.match-locale[lang="PL"].ft_PL:not(.fs_ENG):not(.fs_GER),
+.match-locale[lang="ENG"].ft_ENG:not(.fs_PL):not(.fs_GER),
+.match-locale[lang="GER"].ft_GER:not(.fs_PL):not(.fs_ENG),
+.match-locale[lang="PL"].ct_IMG.fs_PL,
+.match-locale[lang="ENG"].ct_IMG.fs_ENG,
+.match-locale[lang="GER"].ct_IMG.fs_GER {
+    display: block;
+}
+
+/* Override the lang property with the fs_{lang} class */
+.match-locale[lang="PL"].fs_PL:not(.fs_ENG):not(.fs_GER):not(.ct_IMG),
+.match-locale[lang="ENG"].fs_ENG:not(.fs_PL):not(.fs_GER):not(.ct_IMG),
+.match-locale[lang="GER"].fs_GER:not(.fs_PL):not(.fs_ENG):not(.ct_IMG) {
+    display: block;
+}
+
+/* Flag icons for card targets */
+li.show-flag::after {
+    content: ''; /* Ensures the pseudo-element is rendered */
+    display: inline-block; /* Allows the pseudo-element to take up space */
+    background-size: contain; /* Scales the image to fit */
+    background-repeat: no-repeat; /* Prevents repeating */
+    width: 26px; /* Flag width */
+    height: 26px; /* Flag height */
+    margin-left: 8px; /* Adds spacing between the text and the flag */
+    margin-top: 6px;
+    vertical-align: middle; /* Aligns the flag with the text */
+}
+
+/* Flag for Polish */
+li.show-flag.ct_PL:not(.ft_GER):not(.ft_ENG)::after,
+li.show-flag.ft_PL:not(.ct_IMG)::after,
+li.show-flag.ct_IMG.cs_PL:not(.fs_GER):not(.fs_ENG)::after{
+    background-image: url('pl.svg');
+}
+
+/* Flag for English */
+li.show-flag.ct_ENG:not(.ft_GER):not(.ft_PL)::after,
+li.show-flag.ft_ENG:not(.ct_IMG)::after,
+li.show-flag.ct_IMG.cs_ENG:not(.fs_PL):not(.fs_GER)::after {
+    background-image: url('gb.svg');
+}
+
+/* Flag for German */
+li.show-flag.ct_GER:not(.ft_PL):not(.ft_ENG)::after,
+li.show-flag.ft_GER:not(.ct_IMG)::after,
+li.show-flag.ct_IMG.cs_GER:not(.fs_ENG):not(.fs_PL)::after{
+    background-image: url('ger.svg');
+}
+
+/* Code Blocks */
+code {
+    font-weight: 300;
+    font-size: 0.6em;
+    display: block;
+    margin: var(--spacing-sm) auto;
+    text-align: left;
+    white-space: pre;
+    width: 90%;
+    max-width: 800px;
+    padding: var(--spacing-sm);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    font-family: var(--font-primary);
+    box-shadow: var(--shadow);
+}
+
+code.inline {
+    display: inline;
+    vertical-align: middle;
+}
+
+code mark {
+    background: rgba(255, 255, 0, 0.3);
+    color: inherit;
+    border-radius: 4px;
+    padding: 0 2px;
+    font-weight: bold;
+}
+
+b, strong, .cloze, a {
+    color: var(--color-tertiary) !important;
+}
+b, strong, .cloze {
+    font-weight: bold !important;
+}
+a { text-decoration: underline; }
+b u, strong u, u b, u strong {
+    text-decoration-color: var(--color-tertiary);
+}
+
+.synonym {
+    flex: 1 1 auto; /* Grow and shrink as needed */
+    min-width: 150px; /* Ensures readability */
+    text-align: center;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    background: linear-gradient(
+        72deg, /* Diagonal gradient */
+        rgba(255, 255, 255, 0.08) 15%, /* Start with a stronger white */
+                                rgba(255, 255, 255, 0.05) 40%, /* Fade out midway */
+                                rgba(255, 255, 255, 0) 85% /* Fully transparent at the end */
+    );
+    padding: var(--spacing-sm);
+    margin: var(--spacing-sm);
+}
+
+.synonym--highlight {
+    text-align: center;
+    backdrop-filter: blur(10px);
+
+    font-size: 1.8rem; /* Increase visibility */
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-tertiary)); /* Smooth gradient */
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Soft glow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.synonym:hover, .synonym--highlight:hover {
+    backdrop-filter: blur(15px);
+    transform: scale(1.03);
+}
+
+.synonym--highlight {
+    flex-basis: 100%;
+}
+
+/* Disambiguation */
+.disambiguation {
+    font-weight: 400;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+#typeans {
+width: 100%;
+box-sizing: border-box;
+font-size: 40px;
+text-align: center;
+}
+
+input {
+    background: linear-gradient(
+        135deg, /* Diagonal gradient */
+        rgba(255, 255, 255, 0.08) 15%, /* Start with a stronger white */
+                                rgba(255, 255, 255, 0.05) 50%, /* Fade out midway */
+                                rgba(255, 255, 255, 0) 100% /* Fully transparent at the end */
+    );
+    backdrop-filter: blur(10px);
+    margin: var(--spacing-sm);
+}
+
+mjx-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center; /* Optional */
+}
+
+table {
+    width: 100%;
+}
