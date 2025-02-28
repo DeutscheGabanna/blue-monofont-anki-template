@@ -1,0 +1,1 @@
+# blue-monofont-anki-template
